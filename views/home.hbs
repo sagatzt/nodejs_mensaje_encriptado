@@ -1,0 +1,55 @@
+  <!-- CUERPO DEL EJERCICIO -->
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 justify-content-center align-items-center">
+            <div>
+              Escribe destinatario:
+              <input type="email" name="destinatario" id="destinatario">
+            </div>
+            <div>
+              Escribe tu mensaje:
+              <input type="text" name="texto" id="texto">
+            </div>
+            <div>Escribe tu prioridad:
+              <select name="prioridad" id="prioridad">
+                <option value="ALTA">ALTA</option>
+                <option value="MEDIA">MEDIA</option>
+                <option value="BAJA">BAJA</option>
+              </select>
+            </div>
+            <div>
+              Escriba la fecha para enviar:
+              <input type="date" name="fechaEnvio" id="fechaEnvio">
+            </div>
+            <input type="button" id="boton" value="Ecriptar mensaje">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 resultado">
+          resultado:
+        </div>
+      </div>
+    </div> 
+  </main>
+  <!-- codigo de javascript para esta página -->
+  <script>
+    document.querySelector("#boton").onclick=()=>{
+      let texto = document.querySelector("#texto")
+      fetch('/mensajes/procesar',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            texto: texto.value,
+            destinatario: destinatario.value,
+            prioridad: prioridad.value,
+            fechaEnvio: fechaEnvio.value
+            }),
+          headers: {'Content-type':'application/json'}
+        })
+        .then(res=>res.json())
+        .then(datos=>
+          document.querySelector(".resultado").innerHTML=datos.mensaje
+        )
+    }
+  </script>
